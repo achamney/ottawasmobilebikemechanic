@@ -3,6 +3,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/png" href="favicon.png">
         <link rel="stylesheet" href="all.css">
+
     </head>
     <body>
         <div class="page-body RESTAURANT" style="background: linear-gradient( rgba(0,0,0,0), rgba(0,0,0,0)), url(/web/20220105092431im_/https://ecomobilebikerepair.ca/) repeat 50% 50%; background-size: auto; background-color: #EFF2F5; color: black; ">
@@ -38,10 +39,10 @@
                         <div class="connected-moveable-content-container ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ui-sortable column col-sm-12">
                             <div class="content " style="text-align:center">
                                 <div class="ng-scope">
-                                    <div class="ng-binding ng-scope"><h2 style="text-align: center;">We're open for 2023!</h2>
-<h4 style="text-align: center;">Get your bike fixed from the comfort of your own home.</h4></div>
+                                    <div class="ng-binding ng-scope"><h2 style="text-align: center;" id="title-text">We're open for 2023!</h2>
+<h4 style="text-align: center;" id="title-subtext">Get your bike fixed from the comfort of your own home.</h4></div>
                                 </div>
-                                <a class="btn btn-primary" href="https://calendly.com/ecomobilebikerepair/60min" target="_blank">Book Now!</a>
+                                <a class="btn btn-primary" href="https://calendly.com/ecomobilebikerepair/60min" target="_blank" id="booknow">Book Now!</a>
                             </div>
                         </div>
                     </div>
@@ -189,4 +190,31 @@
         </div>
 
     </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        
+    $.get("https://achamney.pythonanywhere.com/60c2598a-5e1e-11ee-a6d6-0a07e5c9515f",function(data){ $("#title-text").html(JSON.parse(data).title)});
+    $.get("https://achamney.pythonanywhere.com/eb3c7190-5e1e-11ee-a6d6-0a07e5c9515f",function(data){ $("#title-subtext").html(JSON.parse(data).subtitle)});
+    $.get("https://achamney.pythonanywhere.com/fa9c2266-5e1e-11ee-a6d6-0a07e5c9515f",function(data){ JSON.parse(data).book=="false"?$("#booknow").css("display","none"):""});
+    window.setTitle= function (title) {
+        ajaxme ("60c2598a-5e1e-11ee-a6d6-0a07e5c9515f", {title:title});
+    }
+    window.setSubtitle= function (title) {
+        ajaxme ("eb3c7190-5e1e-11ee-a6d6-0a07e5c9515f", {subtitle:title});
+    }
+    window.setBook= function (book) {
+        ajaxme ("fa9c2266-5e1e-11ee-a6d6-0a07e5c9515f", {book:book});
+    }
+    function ajaxme(id, data) {
+        
+        $.ajax({
+            type: "POST",
+            url: "https://achamney.pythonanywhere.com/set/"+id,
+            data: JSON.stringify(data),
+            success: function(){console.log("test")},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        });
+    }
+</script>
 </html>
