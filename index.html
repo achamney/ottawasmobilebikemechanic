@@ -39,7 +39,7 @@
                         <div class="connected-moveable-content-container ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ui-sortable column col-sm-12">
                             <div class="content " style="text-align:center">
                                 <div class="ng-scope">
-                                    <div class="ng-binding ng-scope"><h2 style="text-align: center;" id="title-text">We're open for 2023!</h2>
+                                    <div class="ng-binding ng-scope"><h2 style="text-align: center;" id="title-text">Bike problems in Ottawa?</h2>
 <h4 style="text-align: center;" id="title-subtext">Get your bike fixed from the comfort of your own home.</h4></div>
                                 </div>
                                 <a class="btn btn-primary" href="https://calendly.com/ecomobilebikerepair/60min" target="_blank" id="booknow">Book Now!</a>
@@ -193,17 +193,34 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         
-    $.get("https://achamney.pythonanywhere.com/60c2598a-5e1e-11ee-a6d6-0a07e5c9515f",function(data){ $("#title-text").html(JSON.parse(data).title)});
-    $.get("https://achamney.pythonanywhere.com/eb3c7190-5e1e-11ee-a6d6-0a07e5c9515f",function(data){ $("#title-subtext").html(JSON.parse(data).subtitle)});
-    $.get("https://achamney.pythonanywhere.com/fa9c2266-5e1e-11ee-a6d6-0a07e5c9515f",function(data){ JSON.parse(data).book=="false"?$("#booknow").css("display","none"):""});
+    $.get("https://achamney.pythonanywhere.com/60c2598a-5e1e-11ee-a6d6-0a07e5c9515f",function(data){ 
+        let jsondata = JSON.parse(data);
+        $("#title-text").html(jsondata.title);
+        $("#title-subtext").html(jsondata.subtitle);
+        jsondata.book=="false"?$("#booknow").css("display","none"):""
+    });
     window.setTitle= function (title) {
-        ajaxme ("60c2598a-5e1e-11ee-a6d6-0a07e5c9515f", {title:title});
+        $.get("https://achamney.pythonanywhere.com/60c2598a-5e1e-11ee-a6d6-0a07e5c9515f",function(data){ 
+            let jsondata = JSON.parse(data);
+            jsondata.title = title;
+            ajaxme ("60c2598a-5e1e-11ee-a6d6-0a07e5c9515f", jsondata);
+        });
     }
     window.setSubtitle= function (title) {
-        ajaxme ("eb3c7190-5e1e-11ee-a6d6-0a07e5c9515f", {subtitle:title});
+        
+        $.get("https://achamney.pythonanywhere.com/60c2598a-5e1e-11ee-a6d6-0a07e5c9515f",function(data){ 
+            let jsondata = JSON.parse(data);
+            jsondata.subtitle = title;
+            ajaxme ("60c2598a-5e1e-11ee-a6d6-0a07e5c9515f", jsondata);
+        });
     }
     window.setBook= function (book) {
-        ajaxme ("fa9c2266-5e1e-11ee-a6d6-0a07e5c9515f", {book:book});
+        
+        $.get("https://achamney.pythonanywhere.com/60c2598a-5e1e-11ee-a6d6-0a07e5c9515f",function(data){ 
+            let jsondata = JSON.parse(data);
+            jsondata.book = book;
+            ajaxme ("60c2598a-5e1e-11ee-a6d6-0a07e5c9515f", jsondata);
+        });
     }
     function ajaxme(id, data) {
         
